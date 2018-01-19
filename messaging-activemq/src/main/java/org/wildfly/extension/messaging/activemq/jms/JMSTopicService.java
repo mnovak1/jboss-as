@@ -67,8 +67,8 @@ public class JMSTopicService implements Service<Topic> {
             public void run() {
                 try {
                     // add back the jms.topic. prefix to be consistent with ActiveMQ Artemis 1.x addressing scheme
-                    jmsManager.createTopic(false, JMS_TOPIC_PREFIX + name);
-                    topic = new ActiveMQTopic(JMS_TOPIC_PREFIX + name);
+                    jmsManager.createTopic(JMS_TOPIC_PREFIX + name, false, name);
+                    topic = new ActiveMQTopic(JMS_TOPIC_PREFIX + name, name);
                     context.complete();
                 } catch (Throwable e) {
                     context.failed(MessagingLogger.ROOT_LOGGER.failedToCreate(e, "JMS topic"));

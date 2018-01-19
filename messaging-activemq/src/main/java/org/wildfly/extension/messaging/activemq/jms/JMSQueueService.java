@@ -1,4 +1,4 @@
-/*
+ /*
  * JBoss, Home of Professional Open Source.
  * Copyright 2010, Red Hat, Inc., and individual contributors
  * as indicated by the @author tags. See the copyright.txt file in the
@@ -74,8 +74,8 @@ public class JMSQueueService implements Service<Queue> {
             public void run() {
                 try {
                     // add back the jms.queue. prefix to be consistent with ActiveMQ Artemis 1.x addressing scheme
-                    jmsManager.createQueue(false, JMS_QUEUE_PREFIX + queueName, selectorString, durable);
-                    JMSQueueService.this.queue = new ActiveMQQueue(JMS_QUEUE_PREFIX + queueName);
+                    jmsManager.createQueue(false, JMS_QUEUE_PREFIX + queueName, queueName, selectorString, durable);
+                    JMSQueueService.this.queue = new ActiveMQQueue( JMS_QUEUE_PREFIX + queueName, queueName);
                     context.complete();
                 } catch (Throwable e) {
                     context.failed(MessagingLogger.ROOT_LOGGER.failedToCreate(e, "JMS queue"));

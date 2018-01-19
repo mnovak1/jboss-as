@@ -48,6 +48,7 @@ import org.apache.activemq.artemis.api.core.ActiveMQException;
 import org.apache.activemq.artemis.api.core.JsonUtil;
 import org.apache.activemq.artemis.api.core.Pair;
 import org.apache.activemq.artemis.api.core.RoutingType;
+import org.apache.activemq.artemis.api.core.SimpleString;
 import org.apache.activemq.artemis.api.core.management.ActiveMQServerControl;
 import org.apache.activemq.artemis.api.core.management.AddressControl;
 import org.apache.activemq.artemis.api.core.management.QueueControl;
@@ -279,7 +280,7 @@ public class JMSTopicControlHandler extends AbstractRuntimeOnlyHandler {
 
 
    private int countMessagesForSubscription(String clientID, String subscriptionName, String filterStr, ManagementService managementService) throws Exception {
-      String queueName = ActiveMQDestination.createQueueNameForSubscription(true, clientID, subscriptionName);
+      SimpleString queueName = ActiveMQDestination.createQueueNameForSubscription(true, clientID, subscriptionName);
       QueueControl coreQueueControl = (QueueControl) managementService.getResource(ResourceNames.QUEUE + queueName);
       if (coreQueueControl == null) {
          throw new IllegalArgumentException("No subscriptions with name " + queueName + " for clientID " + clientID);
@@ -301,13 +302,13 @@ public class JMSTopicControlHandler extends AbstractRuntimeOnlyHandler {
    }
 
    private void dropDurableSubscription(final String clientID, final String subscriptionName, ManagementService managementService) throws Exception {
-      String queueName = ActiveMQDestination.createQueueNameForSubscription(true, clientID, subscriptionName);
+      SimpleString queueName = ActiveMQDestination.createQueueNameForSubscription(true, clientID, subscriptionName);
       QueueControl coreQueueControl = (QueueControl) managementService.getResource(ResourceNames.QUEUE + queueName);
       if (coreQueueControl == null) {
          throw new IllegalArgumentException("No subscriptions with name " + queueName + " for clientID " + clientID);
       }
       ActiveMQServerControl serverControl = (ActiveMQServerControl) managementService.getResource(ResourceNames.BROKER);
-      serverControl.destroyQueue(queueName, true);
+      serverControl.destroyQueue(queueName.toString(), true);
    }
 
    private String listAllSubscriptionsAsJSON(AddressControl addressControl, ManagementService managementService)  {

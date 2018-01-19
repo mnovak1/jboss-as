@@ -39,9 +39,9 @@ import org.jboss.as.controller.PathAddress;
 import org.jboss.as.controller.PathElement;
 import org.jboss.as.controller.registry.PlaceholderResource;
 import org.jboss.as.controller.registry.Resource;
-import org.wildfly.extension.messaging.activemq.logging.MessagingLogger;
 import org.jboss.dmr.ModelNode;
 import org.jboss.msc.service.ServiceController;
+import org.wildfly.extension.messaging.activemq.logging.MessagingLogger;
 
 /**
  * Resource representing a ActiveMQ server.
@@ -245,11 +245,6 @@ public class ActiveMQServerResource implements Resource {
 
     private boolean hasQueueControl(String name) {
         final ManagementService managementService = getManagementService();
-        // for backwards compatibility, if the queue name starts with "jms.queue." (as in Artemis 1.x),
-        // we strip it to get only the actual name (as in Artemis 2.x)
-        if (name.startsWith("jms.queue.")) {
-            name = name.substring("jms.queue.".length());
-        }
         return managementService == null ? false : managementService.getResource(ResourceNames.QUEUE + name) != null;
     }
 

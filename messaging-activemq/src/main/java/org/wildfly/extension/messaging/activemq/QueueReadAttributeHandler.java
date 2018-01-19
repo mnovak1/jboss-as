@@ -97,9 +97,6 @@ public class QueueReadAttributeHandler extends AbstractRuntimeOnlyHandler {
 
         final String attributeName = operation.require(ModelDescriptionConstants.NAME).asString();
         String queueName = context.getCurrentAddressValue();
-        if (queueName.startsWith("jms.queue.")) {
-            queueName = queueName.substring("jms.queue.".length());
-        }
 
         final ServiceName serviceName = MessagingServices.getActiveMQServiceName(context.getCurrentAddress());
         ServiceController<?> service = context.getServiceRegistry(false).getService(serviceName);
