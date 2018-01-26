@@ -84,7 +84,7 @@ public class AddressSettingDefinition extends PersistentResourceDefinition {
             .build();
 
     public static final SimpleAttributeDefinition AUTO_CREATE_QUEUES = create("auto-create-queues", ModelType.BOOLEAN)
-            .setDefaultValue(new ModelNode(true))
+            .setDefaultValue(new ModelNode(false))
             .setRequired(false)
             .setAllowExpression(true)
             .build();
